@@ -1,0 +1,149 @@
+
+name: CI
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+
+concurrency:
+  group: develop-weighment_client-${{ github.event.number }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    name: Server
+
+    services:
+      redis-cache:
+        image: redis:alpine
+        ports:
+          - 13000:6379
+      redis-queue:
+        image: redis:alpine
+        ports:
+          - 11000:6379
+      mariadb:
+        image: mariadb:10.6
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: --health-cmd="mariadb-admin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+
+    steps:
+      - name: Clone
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4import socket
+import frappe
+from frappe.exceptions import UrlSchemeNotSupported
+from frappe.model.document import Document
+import serial
+from serial.tools import list_ports
+
+class WayBridgeReading(Document):
+	@frappe.whitelist()
+	def get_reading(self):
+		port = find_serial_port()
+		# port ='/dev/ttyUSB0'
+		if port is None:
+			frappe.throw("No serial ports found.")
+		baud_rate = 1200
+		ser = serial.Serial(port,baud_rate,timeout=0.01)
+		try:
+			data = ser.readline()
+			decoded_data = data.decode()
+			print("DECODED DATA:------>",decoded_data)
+			index = decoded_data.index("W")
+			substring = decoded_data[index-5:index]
+			if substring:
+				print("Recived Weight:---------->",substring)
+				self.reading = substring
+		finally:
+			# pass
+			ser.close()
+
+
+# def fing_serial_port():
+# 	ports = list(list_ports.comports())
+# 	print("pppppppppp",ports)
+# 	if not ports:
+# 		return None
+# 	return ports[0].device
+def find_serial_port():
+    ports = list(list_ports.comports())
+    print("Available Ports:", [port.device for port in ports])
+    
+    # You can customize this logic to select the appropriate port for your use case
+    # For example, you might want to filter ports based on some criteria
+    selected_port = None
+    for port in ports:
+        if "USB" in port.device:
+            selected_port = port.device
+            break
+    
+    return selected_port
+        with:
+          python-version: '3.10'
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          check-latest: true
+
+      - name: Cache pip
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/*requirements.txt', '**/pyproject.toml', '**/setup.py', '**/setup.cfg') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+            ${{ runner.os }}-
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: 'echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT'
+
+      - uses: actions/cache@v3
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install MariaDB Client
+        run: sudo apt-get install mariadb-client-10.6
+
+      - name: Setup
+        run: |
+          pip install frappe-bench
+          bench init --skip-redis-config-generation --skip-assets --python "$(which python)" ~/frappe-bench
+          mariadb --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL character_set_server = 'utf8mb4'"
+          mariadb --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL collation_server = 'utf8mb4_unicode_ci'"
+
+      - name: Install
+        working-directory: /home/runner/frappe-bench
+        run: |
+          bench get-app weighment_client $GITHUB_WORKSPACE
+          bench setup requirements --dev
+          bench new-site --db-root-password root --admin-password admin test_site
+          bench --site test_site install-app weighment_client
+          bench build
+        env:
+          CI: 'Yes'
+
+      - name: Run Tests
+        working-directory: /home/runner/frappe-bench
+        run: |
+          bench --site test_site set-config allow_tests true
+          bench --site test_site run-tests --app weighment_client
+        env:
+          TYPE: server

@@ -1,0 +1,89 @@
+//This program takes any 3 input fields from user and generate the output field which is not entered 
+//for example, if user enters the values of time period,rateof interest,Amount then they will get principle predicted as the output
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compound Interest</title>
+<style>
+body{
+    background-color:cadetblue;
+    padding: 3px;
+}
+h1{
+    color:brown;
+    padding: 3px;
+    text-align: center;
+            }
+button{
+       color: chocolate;
+        padding: 3px;
+            }
+button:hover{
+                color:cadetblue
+                
+            }
+</style>
+</head>
+<body>
+    <h1><em></em>Compound Interest Calculator</em></h1>
+    <label>Principal value:</label><p></p>
+    <input type="text" id='a' onchange="main()"><p></p>
+    <label>Time period:</label><p></p>
+    <input type="text" id='b' onchange="main()"><p></p>
+    <label>Rate of Interest :</label><p></p>
+    <input type="text" id='c' onchange="main()"><p></p>
+    <label>Amount    :    </label><p></p>
+    <input type="text" id='d' onchange="main()"><p></p>
+    <button onclick="abc()"> reset</button>
+    <p></p>
+<script>
+    function main(){
+      let p,t,r,A;
+      p=document.getElementById('a').value;
+      t=document.getElementById('b').value;
+      r=document.getElementById('c').value;
+      A=document.getElementById('d').value;
+      //checking for valid inputs
+    if( isNaN(a.value) || isNaN(b.value) || isNaN(c.value) || isNaN(d.value) || a.value<0 || b.value<0 || c.value<0 || d.value<0){
+        alert("Please enter valid inputs.");
+     } 
+       //to calculate Amount
+    else if(p!=="" && t!=="" && r!=="" && A==="" ){
+      A =p*(Math.pow((1+r/100),t));
+      A=A.toFixed(3);
+      d.value=A; 
+    }
+    //to calculate principal
+    else if(p==="" && t!=="" && r!=="" && A!==""){
+      p=A/Math.pow((1+r/100),t);
+      p=p.toFixed(3);
+      a.value=p;
+    }
+    //to calculate time
+    else if(t===""  && p!=="" && r!=="" && A!==""){
+        t=(Math.log(A/p))/(Math.log(1+r/100));
+        t=t.toFixed(3);
+        b.value=t;
+    }
+    //to calculate rate of interest
+    else if(r===""  && t!=="" && p!=="" && A!==""){
+      r=(((A/p)**(1/t))-1)*100;
+      r=r.toFixed(3);
+      c.value=r;
+    }
+    }
+function abc(){
+  a.value=null;
+  b.value=null;
+  c.value=null;
+  d.value=null;
+}
+</script>  
+<footer>
+  Please enter positive values only
+</footer>  
+</body>
+</html>

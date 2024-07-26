@@ -1,0 +1,448 @@
+{
+ "actions": [],
+ "autoname": "WEI-.abbr.-.YY.-.######",
+ "creation": "2024-04-20 17:50:54.687508",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_0yo0",
+  "tare_weight",
+  "column_break_wili",
+  "gross_weight",
+  "column_break_gsry",
+  "net_weight",
+  "details_section",
+  "gate_entry_number",
+  "branch",
+  "abbr",
+  "location",
+  "company",
+  "item_group",
+  "entry_type",
+  "column_break_nvjm",
+  "weighment_date",
+  "purchase_order",
+  "supplier",
+  "supplier_name",
+  "column_break_9y7r",
+  "inward_date",
+  "vehicle_owner",
+  "vehicle_type",
+  "vehicle",
+  "vehicle_number",
+  "column_break_whvm",
+  "outward_date",
+  "transporter",
+  "transporter_name",
+  "driver",
+  "driver_name",
+  "driver_contact",
+  "is_in_progress",
+  "is_completed",
+  "purchase_order_details_section",
+  "purchase_orders",
+  "section_break_cpy1",
+  "items",
+  "enable_weight_adjustment",
+  "section_break_lsoa",
+  "delivery_note_details",
+  "section_break_spqd",
+  "allowed_tolerance",
+  "column_break_yfqb",
+  "minimum_permissible_weight",
+  "maximum_permissible_weight",
+  "column_break_hrzm",
+  "total_weight",
+  "url_details_tab",
+  "url",
+  "connections_tab",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "label": "Gate Entry Details"
+  },
+  {
+   "fieldname": "gate_entry_number",
+   "fieldtype": "Link",
+   "label": "Gate Entry Number",
+   "options": "Gate Entry"
+  },
+  {
+   "fetch_from": "gate_entry_number.branch",
+   "fieldname": "branch",
+   "fieldtype": "Autocomplete",
+   "in_list_view": 1,
+   "label": "Branch",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "gate_entry_number.company",
+   "fieldname": "company",
+   "fieldtype": "Autocomplete",
+   "in_list_view": 1,
+   "label": "Company",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "gate_entry_number.item_group",
+   "fieldname": "item_group",
+   "fieldtype": "Autocomplete",
+   "label": "Item Group",
+   "mandatory_depends_on": "evel:doc.entry_type === \"Outward\";",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "gate_entry_number.entry_type",
+   "fieldname": "entry_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Entry Type",
+   "options": "\nInward\nOutward",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_nvjm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "weighment_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Weighment Date"
+  },
+  {
+   "fetch_from": "gate_entry_number.purchase_order",
+   "fieldname": "purchase_order",
+   "fieldtype": "Autocomplete",
+   "hidden": 1,
+   "label": "Purchase Order",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.entry_type==\"Inward\"",
+   "fetch_from": "gate_entry_number.supplier",
+   "fieldname": "supplier",
+   "fieldtype": "Autocomplete",
+   "label": "Supplier",
+   "mandatory_depends_on": "eval:doc.type==\"Inward\""
+  },
+  {
+   "depends_on": "eval:doc.supplier",
+   "fetch_from": "gate_entry_number.supplier_name",
+   "fieldname": "supplier_name",
+   "fieldtype": "Data",
+   "label": "Supplier Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_9y7r",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "inward_date",
+   "fieldtype": "Datetime",
+   "label": "Inward Date"
+  },
+  {
+   "fetch_from": "gate_entry_number.vehicle_owner",
+   "fieldname": "vehicle_owner",
+   "fieldtype": "Select",
+   "label": "Vehicle Owner",
+   "options": "Company Owned\nThird Party"
+  },
+  {
+   "fetch_from": "gate_entry_number.vehicle_type",
+   "fieldname": "vehicle_type",
+   "fieldtype": "Autocomplete",
+   "label": "Vehicle Type",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.vehicle_owner != \"Third Party\"",
+   "fetch_from": "gate_entry_number.vehicle",
+   "fieldname": "vehicle",
+   "fieldtype": "Autocomplete",
+   "label": "Vehicle",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.vehicle_owner === \"Third Party\"",
+   "fetch_from": "gate_entry_number.vehicle_number",
+   "fieldname": "vehicle_number",
+   "fieldtype": "Data",
+   "label": "Vehicle Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_whvm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "outward_date",
+   "fieldtype": "Datetime",
+   "label": "Outward Date",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.vehicle_owner === \"Third Party\";",
+   "fetch_from": "gate_entry_number.transporter",
+   "fieldname": "transporter",
+   "fieldtype": "Autocomplete",
+   "label": "Transporter"
+  },
+  {
+   "depends_on": "eval:doc.trnasporter",
+   "fetch_from": "gate_entry_number.transporter_name",
+   "fieldname": "transporter_name",
+   "fieldtype": "Data",
+   "label": "Transporter Name"
+  },
+  {
+   "fetch_from": "gate_entry_number.driver",
+   "fieldname": "driver",
+   "fieldtype": "Autocomplete",
+   "label": "Driver"
+  },
+  {
+   "fetch_from": "gate_entry_number.driver_name",
+   "fieldname": "driver_name",
+   "fieldtype": "Data",
+   "label": "Driver Name",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "0",
+   "fieldname": "is_in_progress",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Is In Progress",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "0",
+   "fieldname": "is_completed",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Is Completed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_cpy1",
+   "fieldtype": "Section Break",
+   "label": "Purchase Order Item Details"
+  },
+  {
+   "depends_on": "eval:doc.entry_type === \"Inward\";",
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Purchase Order Item",
+   "options": "Purchase Details",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_0yo0",
+   "fieldtype": "Section Break",
+   "label": "Weight Details"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "tare_weight",
+   "fieldtype": "Float",
+   "label": "Tare Weight (In Kg)",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_wili",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "gross_weight",
+   "fieldtype": "Float",
+   "label": "Gross Weight (In Kg)",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_gsry",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "net_weight",
+   "fieldtype": "Float",
+   "label": "Net Weight (In Kg)",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "connections_tab",
+   "fieldtype": "Tab Break",
+   "label": "Connections",
+   "show_dashboard": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Weighment",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "url",
+   "fieldtype": "Data",
+   "label": "URL",
+   "read_only": 1
+  },
+  {
+   "fieldname": "url_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "URL Details"
+  },
+  {
+   "fieldname": "section_break_lsoa",
+   "fieldtype": "Section Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "depends_on": "eval:doc.entry_type === 'Outward'",
+   "fieldname": "delivery_note_details",
+   "fieldtype": "Table",
+   "label": "Delivery Note Details",
+   "options": "Delivery Note Details"
+  },
+  {
+   "allow_on_submit": 1,
+   "depends_on": "eval:doc.maximum_permissible_weight >0;",
+   "fieldname": "maximum_permissible_weight",
+   "fieldtype": "Float",
+   "label": "Maximum Permissible Weight",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "depends_on": "eval:doc.total_weight >0;",
+   "fieldname": "total_weight",
+   "fieldtype": "Float",
+   "label": "Total Weight",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "depends_on": "eval:doc.allowed_tolerance >0;",
+   "fieldname": "allowed_tolerance",
+   "fieldtype": "Float",
+   "label": "Allowed Tolerance",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "depends_on": "eval:doc.minimum_permissible_weight >0;",
+   "fieldname": "minimum_permissible_weight",
+   "fieldtype": "Float",
+   "label": "Minimum  Permissible Weight",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "gate_entry_number.driver_contact",
+   "fieldname": "driver_contact",
+   "fieldtype": "Data",
+   "label": "Driver Contact",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fetch_from": "gate_entry_number.abbr",
+   "fieldname": "abbr",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Abbr",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fetch_from": "gate_entry_number.location",
+   "fieldname": "location",
+   "fieldtype": "Data",
+   "label": "Location",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "purchase_orders",
+   "fieldtype": "Table",
+   "label": "Purchase Orders",
+   "options": "Purchase Orders",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fetch_from": "gate_entry_number.enable_weight_adjustment",
+   "fieldname": "enable_weight_adjustment",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Enable Weight Adjustment"
+  },
+  {
+   "fieldname": "purchase_order_details_section",
+   "fieldtype": "Section Break",
+   "label": "Purchase Order Details"
+  },
+  {
+   "fieldname": "section_break_spqd",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_yfqb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_hrzm",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-07-03 22:51:33.381792",
+ "modified_by": "Administrator",
+ "module": "Weighment Client",
+ "name": "Weighment",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

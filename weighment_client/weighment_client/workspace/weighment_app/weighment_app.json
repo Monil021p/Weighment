@@ -1,0 +1,122 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"5z-YOpVQfH\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Weighment App</span>\",\"col\":12}},{\"id\":\"gwCQwQbgmq\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"5vHHTF9fBy\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Live Weighment\",\"col\":3}},{\"id\":\"wff3Q7sWPg\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tare Weight Only\",\"col\":3}},{\"id\":\"ATE-_Ai5X6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Today's Outward Weighment\",\"col\":3}},{\"id\":\"KWRKn2p-v0\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"BtGu0oKOsf\",\"type\":\"card\",\"data\":{\"card_name\":\"Transactions\",\"col\":4}},{\"id\":\"vQAApP_xZ9\",\"type\":\"card\",\"data\":{\"card_name\":\"Weighment Settings\",\"col\":4}}]",
+ "creation": "2024-04-30 14:02:41.169490",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "setting",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Weighment App",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Weighment Settings",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Weighment Profile",
+   "link_count": 0,
+   "link_to": "Weighment Profile",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Card Read Write",
+   "link_count": 0,
+   "link_to": "Card Read Write",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Transactions",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Gate Entry",
+   "link_count": 0,
+   "link_to": "Gate Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Weighment",
+   "link_count": 0,
+   "link_to": "Weighment",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Weighment Screen",
+   "link_count": 0,
+   "link_to": "Weighment Screen",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2024-07-02 17:52:09.240139",
+ "modified_by": "Administrator",
+ "module": "Weighment Client",
+ "name": "Weighment App",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 28.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Live Weighment",
+   "link_to": "Weighment Screen",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Tare Weight Only",
+   "link_to": "Weighment",
+   "stats_filter": "[[\"Weighment\",\"tare_weight\",\">\",0,false],[\"Weighment\",\"gross_weight\",\"=\",0,false],[\"Weighment\",\"net_weight\",\"=\",0,false]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Today's Outward Weighment",
+   "link_to": "Weighment",
+   "stats_filter": "[[\"Weighment\",\"weighment_date\",\"Timespan\",\"today\",false],[\"Weighment\",\"docstatus\",\"=\",\"0\",false],[\"Weighment\",\"tare_weight\",\">\",0,false],[\"Weighment\",\"gross_weight\",\"!=\",0,false],[\"Weighment\",\"net_weight\",\"!=\",0,false]]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Weighment App"
+}
