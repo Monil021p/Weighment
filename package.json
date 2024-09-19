@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "escpos": "^3.0.0-alpha.6"
+  }
+}
